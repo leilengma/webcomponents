@@ -1,6 +1,13 @@
-console.log('123334');
+import {html, render} from 'lit-html';
+
 
 class AppComponent extends HTMLElement {
+    get template() {
+        return html`
+            <h4>${this.message}</h4>
+            <input type="text" .value=${this.message}>
+            <button @click=${this.sayhello}>button</button>`
+    }
     get message() {
         return this.getAttribute("message");
     }
@@ -10,12 +17,19 @@ class AppComponent extends HTMLElement {
     }
 
     constructor() {
-        super()
+        super();
     }
 
-    connectedCallback() {
-        this.attachShadow({mode: 'open'});
-        this.shadowRoot.innerHTML = `<style>h4 {color: red;}</style><h4>${this.message}</h4><button onclick="">button</button>`;
+    sayhello(e: any) {
+        console.log('hello')
+    }
+
+    keyChanged(e: any) {
+        console.log(e);
+    }
+
+    connectedCallback() {     
+        render(this.template, this);
     }
 }
 
